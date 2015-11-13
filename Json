@@ -1,0 +1,9 @@
+Json
+
+é uma formatação usada para troca de dados, que é facil de ler e escrever pois ela  usa convenções parecidas com C,C++,C#,Java,JavaScript,Perl e Python, e é suportada por todas liguagens de programação modernas pois ela independe delas.J
+
+pode ser constituido em duas estruturas:
+
+Uma coleção de pares nome/valor. Em várias linguagens é caracterizado como um objeto, struct, ArrayLists e outras.
+
+Uma lista ordenada de valores. Caracterizado como uma ArrayList, vetor e lista.
