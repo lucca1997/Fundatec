@@ -1,0 +1,3 @@
+HTTP Verbs
+
+São muitos verbos usados em RESTful onde os principais sao GET / POST / PUT / DELETE que correspondem a pegar, atualizar, inserir e deletar operações (ou operações crud). 

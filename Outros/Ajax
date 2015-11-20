@@ -1,0 +1,6 @@
+Ajax é uma função usada para requisitar informações via GET / POST / PUT / DELETE que fazem parte do HTTP Request e em RestFull eles são usados nas categorias de:
+
+GET – Pegar dados
+PUT – Atualizar dados
+POST – Inserir dados
+DELETE – Deletar dados
