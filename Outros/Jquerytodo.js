@@ -1,29 +1,64 @@
-$(function () {
-    var li = $("#my-todos>li:first-child");
-    li.remove();
-    $("form").submit(function (event) {
-        event.preventDefault();
-        var text = $("input[type='text']", this).val();
-        var send = {
-            "text": text
-        };
-        $.ajax({
-            type: "POST",
-            url: "https://api.parse.com/1/classes/todo",
-            data: JSON.stringify(send),
-            headers: {
-                "X-Parse-Application-Id": "Kg4XL2Lxp2bfn1soY46q84FLw9m8wtGw5a9HJX3m",
-                "X-Parse-REST-API-Key": "jLX1Q1UvXpey9M7s2g6CvPqgxJb9ztjiHbuQqszB"
-            },
-            success: function (data) {
-                var nova = li.clone();
-                $("span", nova).text(text);
-                nova.appendTo("#my-todos");
-                $("input[type='text']", this).val("");
-            },
-            error: function (event, status, error) {
-                alert(error);
-            }
+angular.module('Todo', []).controller('todoCtrl', function ($scope) {
+    Parse.initialize("Kg4XL2Lxp2bfn1soY46q84FLw9m8wtGw5a9HJX3m", "DXFAjwHEjcihuMpOo4H2EInXdWvWhDD7ybZJEIBV");
+
+    var Todo = Parse.Object.extend("todo");
+
+    var query = new Parse.Query(Todo);
+
+    query.find().then(function (data) {
+        $scope.todos = _.map(data, function (todo) {
+            var ret = {
+                id: todo.id,
+                text: todo.get('text'),
+                done: todo.get('done')
+
+
+            };
+            return ret;
         });
+        if (!$scope.$$phase)
+            $scope.$apply();
     });
+
+
+
+    $scope.adicionar = function () {
+        var newTodo = new Todo();
+        newTodo.set('text', $scope.task);
+        newTodo.set('done', false);
+        newTodo.save().then(function (todo) {
+            $scope.todos.push({
+                id: todo.id,
+                text: todo.get('text'),
+                done: todo.get('done')
+            });
+            $scope.task = "";
+            if (!$scope.$$phase)
+                $scope.$apply();
+        });
+
+
+    }
+
+    $scope.atualiza = function (todo) {
+        var query = new Parse.Query(Todo);
+        query.get(todo.id).then(function (upTodo) {
+            upTodo.set('done', todo.done);
+            upTodo.save();
+        });
+
+
+    }
+
+    $scope.clear = function () {
+        var query = new Parse.Query(Todo);
+        $scope.todos = _.filter($scope.todos, function (todo) {
+            if (todo.done) {
+                query.get(todo.id).then(function (upTodo) {
+                    upTodo.destroy();
+                });
+            }
+            return !todo.done;
+        });
+    }
 });

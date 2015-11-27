@@ -1,23 +1,34 @@
-<html>
+<!DOCTYPE htlm>
+<html lang="pt-br" ng-app="Todo">
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="angular.min.js"></script>
+    <script src="underscore-min.js"></script>
     <script src="Jquerytodo.js"></script>
+    <script src="parse-1.6.7.min.js"></script>
+    <style>
+        .done {
+            text-decoration: line-through;
+            color: gray;
+            font-style: italic;
+        }
+    </style>
 </head>
 
-<body>
-
-    <ul id="my-todos">
-        <li><span>Tarefa</span>
-            <input type="checkbox">
-        </li>
+<body ng-controller="todoCtrl">
+    <h1>My Todos</h1>
+    <ul>
+        <li ng-repeat="todo in todos track by $index" ng-class="{'done': todo.done}">
+            <input type="checkbox" ng-model="todo.done" ng-click="atualiza(todo)">{{todo.text}}</li>
 
     </ul>
-    <form>
-        <input type="text">
-        <button>+</button>
-
+    <form ng-submit="adicionar()">
+        <input type="text" ng-model="task" required>
+        <button type="submit">ADD</button>
     </form>
+    <button ng-click="clear()">Clear</button>
 </body>
 
 </html>
